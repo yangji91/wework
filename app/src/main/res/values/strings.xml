@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">WeBot</string>
+    <!--关于页卡-->
+    <string name="about_title">关于我们</string>
+
+
+    <string name="item_check">环境检测</string>
+
+    <string name="str_loading">加载中...</string>
+
+</resources>
+

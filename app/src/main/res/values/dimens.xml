@@ -1,0 +1,21 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+
+
+    <dimen name="common_margin_left">12dp</dimen>
+    <dimen name="dp_18">18dp</dimen>
+    <dimen name="common_margin_right">12dp</dimen>
+
+    <!--时间控件相关-->
+    <dimen name="datepicker_height">220dp</dimen>
+    <dimen name="datepicker_txtsize">18.5sp</dimen>
+    <dimen name="datepicker_itemwidth">68dp</dimen>
+    <dimen name="datepicker_itemwidth_l">86dp</dimen>
+
+
+    <!--dialog渠道选择-->
+    <dimen name="dialog_channel_select_height">400dp</dimen>
+
+
+</resources>

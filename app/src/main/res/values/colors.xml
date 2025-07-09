@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_blue">#297cfb</color>
+    <color name="common_white">#ffffff</color>
+    <color name="color_126EF8">#126EF8</color>
+    <color name="common_f1f1f1">#f1f1f1</color>
+    <color name="color_126EF8_press">#126EF8</color>
+    <color name="common_transparent">#00000000</color>
+    <color name="color_black">#000000</color>
+
+    <color name="color_333333">#333333</color>
+
+
+    <color name="color_bule">#297cfb</color>
+    <color name="color_f1f1f1">#f1f1f1</color>
+    <color name="color_white">#ffffff</color>
+
+    <!--date picker-->
+    <color name="datepicker_line_border">#D0D0D0</color>
+
+    <color name="common_green">#00c29a</color>
+    <color name="common_green_press">#00c2ba</color>
+
+    <color name="color_666">#666666</color>
+    <color name="color_999">#999999</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="red">#ff0000</color>
+    <color name="blue">#0000ff</color>
+    <color name="green">#00ff00</color>
+    <color name="gray">#686868</color>
+    <color name="Orange">#e75946</color>
+    <color name="Yellow">#f4d227</color>
+    <color name="Blue">#4674e7</color>
+    <color name="Green">#0ba62c</color>
+</resources>

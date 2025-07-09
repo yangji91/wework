@@ -1,0 +1,81 @@
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@drawable/out_bg"
+    >
+
+    <TextView 
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="抽奖提示框"
+        android:layout_gravity="center_horizontal"
+        android:textSize="18sp"
+        android:textColor="@color/color_black"
+        android:layout_marginTop="8dp"
+        />
+
+    <TextView 
+        android:id="@+id/txt_contents"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:text="----"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:minHeight="80dp"
+        android:textSize="16sp"
+        android:lineSpacingExtra="3dp"
+        android:textColor="#333333"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        />
+    
+    <!-- line -->
+    <View 
+        android:layout_height="1dp"
+        android:layout_width="fill_parent"
+        android:background="#cccccc"
+        android:layout_marginTop="6dp"
+        />
+    
+    <LinearLayout 
+        android:layout_height="46dp"
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        >
+        <Button 
+            android:id="@+id/btn_cancle"
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="取消"
+            android:background="@drawable/common_out_btn_left_selector"
+            android:textSize="16sp"
+            android:textColor="@color/color_333333"
+            />
+        
+        <View 
+            android:layout_height="fill_parent"
+            android:layout_width="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="#cccccc"
+            android:layout_gravity="center_vertical"
+            />
+        
+         <Button 
+            android:id="@+id/btn_ok"
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="好的"
+            android:background="@drawable/common_out_btn_right_selector"
+            android:textSize="16sp"
+            android:textColor="@color/color_333333"
+            />
+         
+    </LinearLayout>
+</LinearLayout>

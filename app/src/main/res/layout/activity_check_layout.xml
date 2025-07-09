@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.robot.com.component.MyHeader
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.robot.com.component.MyHeader>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:background="#f2f2f2"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_osver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="---"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txt_model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="---"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="12dp"
+                android:background="#d6d6d6"></View>
+
+            <TextView
+                android:id="@+id/txt_vercode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="---"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txt_vername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="---"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txt_filelen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="---"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="12dp"
+                android:background="#d6d6d6"></View>
+
+            <TextView
+                android:id="@+id/txt_agent_vercode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="版本号:"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txt_agent_vername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="机器人版本名称:"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/txt_agent_filelen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="---"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="12dp"
+                android:background="#d6d6d6"></View>
+
+            <TextView
+                android:id="@+id/txt_login_user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="---"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txt_login_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="---"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txt_login_user_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="---"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="18dp"
+                android:background="#d6d6d6"></View>
+
+            <TextView
+                android:id="@+id/txt_connect_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="链接状态:"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="18dp"
+                android:background="#d6d6d6"></View>
+
+            <TextView
+                android:id="@+id/txt_check_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="检测结果"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

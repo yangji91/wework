@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="朋友圈任务配置页"
+            android:textColor="@color/red"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*******************发送纯文本************************"
+            android:textColor="@color/blue" />
+
+        <EditText
+            android:id="@+id/et_task_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入发送的纯文本" />
+
+        <Button
+            android:id="@+id/btn_send_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发送纯文本"
+            android:textColor="@color/colorAccent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*******************发送图文*******************"
+            android:textColor="@color/blue" />
+
+        <EditText
+            android:id="@+id/et_image_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入图片标题" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_select_image"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="选择图片"
+                android:textColor="@color/Orange" />
+
+            <Button
+                android:id="@+id/btn_send_image"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="发送图文"
+                android:textColor="@color/colorAccent" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_image_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="已选择图片路径" />
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*******************评论朋友圈*******************"
+            android:textColor="@color/blue" />
+
+        <EditText
+            android:id="@+id/et_sns_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入朋友圈id" />
+
+        <EditText
+            android:id="@+id/et_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入评论内容" />
+
+        <Button
+            android:id="@+id/btn_send_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发送评论"
+            android:textColor="@color/colorAccent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*******************分享视频号到朋友圈*******************"
+            android:textColor="@color/blue" />
+
+        <EditText
+            android:id="@+id/et_share_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入分享标题" />
+
+        <EditText
+            android:id="@+id/et_video_number_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入视频号id" />
+
+        <EditText
+            android:id="@+id/et_video_number_auth_nick_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入视频号作者昵称" />
+
+        <EditText
+            android:id="@+id/et_video_number_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入视频号封面图片地址" />
+
+        <Button
+            android:id="@+id/btn_send_video_number_to_sns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="分享视频号"
+            android:textColor="@color/colorAccent" />
+
+    </LinearLayout>
+</ScrollView>

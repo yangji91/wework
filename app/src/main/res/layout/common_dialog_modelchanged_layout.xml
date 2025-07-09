@@ -1,0 +1,56 @@
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@color/common_white"
+    >
+
+    <TextView
+        android:id="@+id/txt_robot"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="机器人模式"
+        android:textSize="16sp"
+        android:textColor="@color/color_333333"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@drawable/white_transbg_selector"
+        ></TextView>
+
+    <View
+        android:layout_height="1px"
+        android:layout_width="match_parent"
+        android:background="@color/datepicker_line_border"
+        ></View>
+
+    <TextView
+        android:id="@+id/txt_pull"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="待机pull模式"
+        android:textSize="16sp"
+        android:textColor="@color/color_333333"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@drawable/white_transbg_selector"
+        ></TextView>
+
+    <View
+        android:layout_height="1px"
+        android:layout_width="match_parent"
+        android:background="@color/datepicker_line_border"
+        ></View>
+
+    <TextView
+        android:id="@+id/txt_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="取消"
+        android:textSize="16sp"
+        android:textColor="@color/color_333333"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@drawable/white_transbg_selector"
+        ></TextView>
+
+</LinearLayout>

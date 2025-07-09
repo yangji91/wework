@@ -1,0 +1,180 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+//apply plugin: 'org.greenrobot.greendao'
+
+def isCustomConfigLog = project.properties.'customConfigLog' == 'true'
+
+android {
+    compileSdkVersion project.properties.'compileSdkVersion'.toString().toInteger()
+    buildToolsVersion project.properties.'buildToolsVersion'.toString()
+
+    defaultConfig {
+        applicationId "com.robot.com"
+        minSdkVersion project.properties.'minSdkVersion'.toString().toInteger()
+        targetSdkVersion project.properties.'targetSdkVersion'.toString().toInteger()
+        versionCode project.properties.'versionCode'.toString().toInteger()
+        versionName project.properties.'versionName'
+        archivesBaseName = "WeBot${versionName}_${versionCode}_build${releaseTime()}".replace(' ', '_')
+        manifestPlaceholders = [build_data: "build_${releaseTime()}"]
+        flavorDimensions "default"
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile file(rootDir.path + project.project."signing_store_file".toString())
+            storePassword project.project."signing_store_password".toString()
+            keyAlias project.project."signing_key_alias".toString()
+            keyPassword project.project."signing_key_password".toString()
+        }
+
+        release {
+            storeFile file(rootDir.path + project.project."signing_store_file".toString())
+            storePassword project.project."signing_store_password".toString()
+            keyAlias project.project."signing_key_alias".toString()
+            keyPassword project.project."signing_key_password".toString()
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
+            buildConfigField "int", "build_env", "3"
+            buildConfigField "boolean", "customConfigLog", "${customConfigLog}"
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            buildConfigField "int", "build_env", "3"
+            buildConfigField "boolean", "customConfigLog", "${customConfigLog}"
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    ndkVersion "21.4.7075529"
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+//    greendao {
+//        //版本号，升级时可配置
+//        schemaVersion 1
+//        //代表GreenDao自动生成的有关数据库操作工具类所要存放的包名
+//        //注意：要先新建entity，然后重新编译才会自动生成DaoSession/DaoMaster/EntityDao！
+//        daoPackage 'com.greendao.abc'
+//    }
+    //这里是避免和宿主的资源id冲突，宿主的资源id可以反编译以后看R文件0x开头的数值
+    aaptOptions {
+        additionalParameters '--allow-reserved-package-id', '--package-id', '0x70'
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE' // will not include NOTICE file
+        exclude 'META-INF/LICENSE' // will not include LICENSE file
+        exclude 'META-INF/INDEX.LIST' // will not include INDEX.LIST file
+        exclude 'META-INF/io.netty.versions.properties'
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+//            if (isCustomConfigLog) {
+            java.srcDirs = ['src/main/java', 'src/main/java-server']
+//            } else {
+//                java.srcDirs = ['src/main/java', 'src/main/java-noserver']
+//            }
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api 'androidx.core:core:1.3.0'
+
+    //Xposed框架
+    compileOnly 'de.robv.android.xposed:api:82'
+    /*compileOnly 'de.robv.android.xposed:api:82:sources'*/
+    //引入gson文件
+    api 'com.google.code.gson:gson:2.6.2'
+    api "io.netty:netty-all:4.1.109.Final"
+
+//    api group: 'io.netty', name: 'netty-handler', version: '4.1.53.Final'
+//    //compile group: 'io.netty', name: 'netty-buffer', version: '4.1.53.Final'
+//    api group: 'io.netty', name: 'netty-common', version: '4.1.53.Final'
+//    api group: 'io.netty', name: 'netty-transport', version: '4.1.53.Final'
+/*    api "io.reactivex.rxjava2:rxjava:2.2.12"
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'*/
+    api 'com.squareup.okhttp3:okhttp:3.14.2'
+    api 'com.squareup.okio:okio:1.17.2'
+    implementation("com.squareup.okhttp3:okhttp")
+    api project(path: ':library')
+    //https://x5.tencent.com/docs/tbsapi.html
+    api 'com.tencent.tbs.tbssdk:sdk:43939'
+    implementation 'androidx.room:room-runtime:2.4.1'
+//    annotationProcessor 'androidx.room:room-compiler:2.4.1'
+    kapt "androidx.room:room-compiler:2.4.1"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
+
+//    api 'com.github.princekin-f:EasyFloat:2.0.4'
+    api 'com.github.getActivity:EasyWindow:10.0'
+    implementation('com.github.gzu-liyujiang:Android_CN_OAID:4.2.9')
+//    if (isCustomConfigLog) {
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    implementation 'com.orhanobut:logger:2.2.0'
+
+    implementation files('libs/esdk-obs-java-3.19.7.jar')
+
+//    implementation 'com.huaweicloud:esdk-obs-android:3.19.7.3'
+
+//    implementation 'androidx.appcompat:appcompat:1.3.0'
+    //fast json
+//    implementation 'com.alibaba:fastjson:1.2.68'
+    //multidex
+//    implementation 'com.android.support:multidex:1.0.3'
+    //ok http
+//    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    //RxJava
+//    implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
+    //blankj
+//    implementation 'com.blankj:utilcodex:1.30.5'
+    //WebSocket
+//    implementation 'com.neovisionaries:nv-websocket-client:2.14'
+    // 这里要和上面选用的加解密算法库一致，用于运行时解密。
+//    implementation 'com.github.megatronking.stringfog:xor:4.0.1'
+//    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    //green dao
+//    implementation 'org.greenrobot:greendao:3.3.0' // 添加库
+//    }
+}
+
+
+def releaseTime() {
+    return new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("GMT+08:00"))
+}

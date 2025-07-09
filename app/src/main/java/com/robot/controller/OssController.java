@@ -2,16 +2,7 @@ package com.robot.controller;
 
 import android.text.TextUtils;
 
-import android.util.Log;
 import com.alibaba.fastjson.JSON;
-import com.obs.services.ObsClient;
-import com.obs.services.exception.ObsException;
-import com.obs.services.internal.task.PutObjectTask;
-import com.obs.services.internal.task.UploadTaskProgressStatus;
-import com.obs.services.model.PutObjectBasicRequest;
-import com.obs.services.model.PutObjectRequest;
-import com.obs.services.model.PutObjectResult;
-import com.obs.services.model.TaskCallback;
 import com.robot.com.BuildConfig;
 import com.robot.com.database.service.WeWorkFileInfoService;
 import com.robot.common.Global;
@@ -30,14 +21,11 @@ import com.robot.sdk.android.oss.common.auth.OSSCustomSignerCredentialProvider;
 import com.robot.sdk.android.oss.common.utils.BinaryUtil;
 import com.robot.sdk.android.oss.common.utils.OSSUtils;
 import com.robot.sdk.android.oss.model.ObjectMetadata;
-
-
+import com.robot.sdk.android.oss.model.PutObjectRequest;
+import com.robot.sdk.android.oss.model.PutObjectResult;
 import com.robot.util.MyLog;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Date;
 
 
 public class OssController {
@@ -68,50 +56,14 @@ public class OssController {
         }
         if (!TextUtils.isEmpty(localPath) &&
                 (localPath.startsWith("/sdcard") || localPath.startsWith("/storage") || localPath.startsWith("/data"))) {
-            // PTokenResultEntity ossToken = ResourceController.getOSSToken();
-            // if (ossToken != null && !ossToken.isExpiration()) {
-            //     MyLog.debug(TAG, " 使用缓存的token  " + ossToken);
-            //     try {
-            //         upload(localPath, objectName, ossToken, msgEntity);
-            //     } catch (IOException e) {
-            //         e.printStackTrace();
-            //     }
-            // } else {
-            //     MyLog.debug(TAG, " 请求 token  " + ossToken);
-            //     retry = 3;
-            //     HttpProtocalManager.getInstance().reqToken(new ICallBack<RspTokenEntity>() {
-            //         @Override
-            //         public void onCall(ResEntity<RspTokenEntity> resEntity) {
-            //             if (resEntity.isSucc()) {
-            //                 RspTokenEntity rspEntity = resEntity.getData();
-            //                 try {
-            //                     ResourceController.saveOSSToken(rspEntity.tokenResultEntity);
-            //                     upload(localPath, objectName, rspEntity.tokenResultEntity, msgEntity);
-            //                 } catch (IOException e) {
-            //                     e.printStackTrace();
-            //                 }
-            //             } else {
-            //                 if (retry <= 0) {
-            //                     MyLog.debug(TAG, "获取token失败【" + resEntity.getMsg() + "】", true);
-            //                 } else {
-            //                     retry--;
-            //                     HttpProtocalManager.getInstance().reqToken(this);
-            //                 }
-            //                 //Global.showToast("获取token失败【" + resEntity.getMsg() + "】");
-            //             }
-            //         }
-            //     });
-            // }
-
-            // https://92b6f898fdc0b3534dea4081f1f61702-xi.obs.cn-east-3.myhuaweicloud.com
             // 临时写死
             PTokenResultEntity ossToken = new PTokenResultEntity();
-            ossToken.accesskey_id = "HPUAYX38LRW6RFBGD022";
-            ossToken.accesskey_secret = "NBO4bk0m7Pm704v23x3VW0uRql91olM2GylIJ7OL";
+            ossToken.accesskey_id = "";
+            ossToken.accesskey_secret = "";
             ossToken.security_token = ""; // cancel
-            ossToken.endpoint = "obs.cn-east-3.myhuaweicloud.com";
+            ossToken.endpoint = "";
             // ossToken.bucket_name = MConfiger.BUCKET_NAME;
-            ossToken.bucket_name = "92b6f898fdc0b3534dea4081f1f61702-xi";
+            ossToken.bucket_name = "";
             try {
                 upload(localPath, objectName, ossToken, msgEntity);
             } catch (IOException e) {
@@ -141,8 +93,6 @@ public class OssController {
         conf.setSocketTimeout(20 * 1000);
         conf.setMaxConcurrentRequest(MAX_CONCURRENT_REQUEST);
         conf.setMaxErrorRetry(2);
-
-        /*
         // 修改完善一下
         OSSClient mOssClient = new OSSClient(Global.getContext(), endpoint, credentialProvider, conf);
         ObjectMetadata metadata = new ObjectMetadata();
@@ -161,6 +111,13 @@ public class OssController {
 //                ProtocalManager.getInstance().sendOssMsgNotify(msgEntity, true, null);
             }
 
+/* <<<<<<<<<<<<<<  ✨ Windsurf Command ⭐ >>>>>>>>>>>>>>>> */
+            /**
+             * @param request
+             * @param clientException
+             * @param serviceException
+             */
+/* <<<<<<<<<<  5922ce98-969c-4bcd-b97d-5ce9bba86d13  >>>>>>>>>>> */
             @Override
             public void onFailure(PutObjectRequest request, ClientException clientException, ServiceException serviceException) {
                 String failMsg = null;
@@ -173,50 +130,5 @@ public class OssController {
 //                ProtocalManager.getInstance().sendOssMsgNotify(msgEntity, false, failMsg);
             }
         });
-
-         */
-
-        // 使用华为云
-        ObsClient obsClient = new ObsClient(pTokenEntity.accesskey_id, pTokenEntity.accesskey_secret, pTokenEntity.endpoint);
-
-        ObsThreadPool.getExecutor().execute(() -> {
-            try {
-                // 待上传的本地文件路径，需要指定到具体的文件名
-                FileInputStream fis2 = new FileInputStream(new File(localPath));
-                PutObjectRequest request = new PutObjectRequest();
-                request.setBucketName(pTokenEntity.bucket_name);
-                request.setObjectKey(objectName);
-                request.setInput(fis2);
-
-                PutObjectResult result = obsClient.putObject(request);
-                if (result.getRequestId() != null) {
-                    MyLog.debug(TAG, "[onSuccess]" + JSON.toJSON(result));
-                    String fullImgUrl = MConfiger.getFullImgUrl(objectName);
-                    ResourceController.putUploadUrl(localPath, fullImgUrl);
-                    WeWorkFileInfoService.getInstance().updatePath(msgEntity.msgId, localPath, fullImgUrl);
-//                ProtocalManager.getInstance().sendOssMsgNotify(msgEntity, true, null);
-                } else {
-                    String failMsg = null;
-                    failMsg = result.toString();
-                    MyLog.debug(TAG, "[onFailure]: 上传失败" + failMsg, true);
-//                ProtocalManager.getInstance().sendOssMsgNotify(msgEntity, false, failMsg);
-                }
-
-            } catch (Exception e) {
-                String failMsg = null;
-                if (e != null) {
-                    failMsg = e.getMessage();
-                } else {
-                    failMsg = "上传失败";
-                }
-                MyLog.debug(TAG, "[onFailure]" + failMsg, true);
-//                ProtocalManager.getInstance().sendOssMsgNotify(msgEntity, false, failMsg);
-            }
-        });
-
-
-
-
-
     }
 }

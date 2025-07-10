@@ -102,7 +102,7 @@ public class HookMsgRevMethod extends HookBaseMethod {
                 baseHandleMsg.onHandleMsg(loadPackageParam, entity);
             }
         } else {
-            WssProtocalManager.sendMsgEntity(entity, "otherMsg");
+//            WssProtocalManager.sendMsgEntity(entity, "otherMsg");
             MyLog.debug(TAG, "[onHookInfo]" + "未查找到该消息类型... e:" + msgEnum);
         }
         if (BuildConfig.customConfigLog) {

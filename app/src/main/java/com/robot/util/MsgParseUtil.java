@@ -22,8 +22,7 @@ import java.util.List;
 
 import com.robot.robothook.RobotHelpers;
 
-import static com.robot.hook.msghandle.MsgHandleEnum.LINK;
-import static com.robot.hook.msghandle.MsgHandleEnum.MINI_APP;
+import static com.robot.hook.msghandle.MsgHandleEnum.*;
 //import static com.robot.hook.msghandle.MsgHandleEnum.MINI_APP;
 //import static com.robot.hook.msghandle.MsgHandleEnum.PRIVATE_SEND_NOTIFY_MSG;
 //import static com.robot.hook.msghandle.MsgHandleEnum.VIDEO;
@@ -83,10 +82,10 @@ public class MsgParseUtil {
                 FileMsgEntity fMsgEntity = FileImgParseUtil.parseData(bs, null);
                 msgEntity.fileMsgEntity = fMsgEntity;
                 MyLog.debug(TAG, "[parseMsgEntity]" + " fileMsgEntity->" + JSON.toJSONString(fMsgEntity));
-//            } else if (contentType == VIDEO.getType() || contentType == VIDEO_SELF.getType() || contentType == VIDEO_MASSHELPER.getType() || contentType == VIDEO_MASSHELPER__22.getType()) {//群发助手的视频信息
-//                VideoMessage videoMsg = VideoParseUtil.parseVideMessage(bs);
-//                msgEntity.videoMsgEntity = videoMsg;
-//                MyLog.debug(TAG, "[parseVideMessage]" + " videoMsg->" + videoMsg);
+            } else if (contentType == VIDEO.getType() || contentType == VIDEO_SELF.getType() || contentType == VIDEO_MASSHELPER.getType() || contentType == VIDEO_MASSHELPER__22.getType()) {//群发助手的视频信息
+                VideoMessage videoMsg = VideoParseUtil.parseVideMessage(bs);
+                msgEntity.videoMsgEntity = videoMsg;
+                MyLog.debug(TAG, "[parseVideMessage]" + " videoMsg->" + videoMsg + "bs: " + bs.toString());
             } else if (contentType == MINI_APP.getType()) {      //小程序
                 WeAppMsgEntity weAppEntity = WeAppParseUtil.parseData(bs);
                 msgEntity.weAppMsgEntity = weAppEntity;

@@ -3,6 +3,9 @@ package com.robot.controller;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.obs.services.ObsClient;
+import com.obs.services.model.PutObjectRequest;
+import com.obs.services.model.PutObjectResult;
 import com.robot.com.BuildConfig;
 import com.robot.com.database.service.WeWorkFileInfoService;
 import com.robot.common.Global;
@@ -21,10 +24,10 @@ import com.robot.sdk.android.oss.common.auth.OSSCustomSignerCredentialProvider;
 import com.robot.sdk.android.oss.common.utils.BinaryUtil;
 import com.robot.sdk.android.oss.common.utils.OSSUtils;
 import com.robot.sdk.android.oss.model.ObjectMetadata;
-import com.robot.sdk.android.oss.model.PutObjectRequest;
-import com.robot.sdk.android.oss.model.PutObjectResult;
 import com.robot.util.MyLog;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 
@@ -58,12 +61,12 @@ public class OssController {
                 (localPath.startsWith("/sdcard") || localPath.startsWith("/storage") || localPath.startsWith("/data"))) {
             // 临时写死
             PTokenResultEntity ossToken = new PTokenResultEntity();
-            ossToken.accesskey_id = "";
-            ossToken.accesskey_secret = "";
+            ossToken.accesskey_id = "HPUAYX38LRW6RFBGD022";
+            ossToken.accesskey_secret = "NBO4bk0m7Pm704v23x3VW0uRql91olM2GylIJ7OL";
             ossToken.security_token = ""; // cancel
-            ossToken.endpoint = "";
+            ossToken.endpoint = "obs.cn-east-3.myhuaweicloud.com";
             // ossToken.bucket_name = MConfiger.BUCKET_NAME;
-            ossToken.bucket_name = "";
+            ossToken.bucket_name = "92b6f898fdc0b3534dea4081f1f61702-xi";
             try {
                 upload(localPath, objectName, ossToken, msgEntity);
             } catch (IOException e) {
@@ -81,6 +84,8 @@ public class OssController {
         if (BuildConfig.customConfigLog) {
             MyLog.debug(TAG, "[upload]" + " securityToken:" + securityToken + "");
         }
+
+        /*
         // OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(accessKeyId, accessKeySecret, securityToken);
         OSSCredentialProvider credentialProvider = new OSSCustomSignerCredentialProvider() {
             @Override
@@ -118,15 +123,53 @@ public class OssController {
              * @param serviceException
              */
 /* <<<<<<<<<<  5922ce98-969c-4bcd-b97d-5ce9bba86d13  >>>>>>>>>>> */
-            @Override
-            public void onFailure(PutObjectRequest request, ClientException clientException, ServiceException serviceException) {
+//            @Override
+//            public void onFailure(PutObjectRequest request, ClientException clientException, ServiceException serviceException) {
+//                String failMsg = null;
+//                if (serviceException != null) {
+//                    failMsg = serviceException.getMessage();
+//                } else {
+//                    failMsg = "上传失败";
+//                }
+//                MyLog.debug(TAG, "[onFailure]" + serviceException.getMessage(), true);
+////                ProtocalManager.getInstance().sendOssMsgNotify(msgEntity, false, failMsg);
+//            }
+//        });
+
+        // 使用华为云
+        ObsClient obsClient = new ObsClient(pTokenEntity.accesskey_id, pTokenEntity.accesskey_secret, pTokenEntity.endpoint);
+
+        ObsThreadPool.getExecutor().execute(() -> {
+            try {
+                // 待上传的本地文件路径，需要指定到具体的文件名
+                FileInputStream fis2 = new FileInputStream(new File(localPath));
+                PutObjectRequest request = new PutObjectRequest();
+                request.setBucketName(pTokenEntity.bucket_name);
+                request.setObjectKey(objectName);
+                request.setInput(fis2);
+
+                PutObjectResult result = obsClient.putObject(request);
+                if (result.getRequestId() != null) {
+                    MyLog.debug(TAG, "[onSuccess]" + JSON.toJSON(result));
+                    String fullImgUrl = MConfiger.getFullImgUrl(objectName);
+                    ResourceController.putUploadUrl(localPath, fullImgUrl);
+                    WeWorkFileInfoService.getInstance().updatePath(msgEntity.msgId, localPath, fullImgUrl);
+//                ProtocalManager.getInstance().sendOssMsgNotify(msgEntity, true, null);
+                } else {
+                    String failMsg = null;
+                    failMsg = result.toString();
+                    MyLog.debug(TAG, "[onFailure]: 上传失败" + failMsg, true);
+//                ProtocalManager.getInstance().sendOssMsgNotify(msgEntity, false, failMsg);
+                }
+
+            } catch (Exception e) {
                 String failMsg = null;
-                if (serviceException != null) {
-                    failMsg = serviceException.getMessage();
+                if (e != null) {
+                    failMsg = e.getMessage();
                 } else {
                     failMsg = "上传失败";
                 }
-                MyLog.debug(TAG, "[onFailure]" + serviceException.getMessage(), true);
+                MyLog.debug(TAG, "[onFailure]" + failMsg, true);
 //                ProtocalManager.getInstance().sendOssMsgNotify(msgEntity, false, failMsg);
             }
         });

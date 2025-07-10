@@ -11,6 +11,7 @@ import com.robot.controller.message.WeWorkMessageUtil;
 import com.robot.entity.MsgEntity;
 import com.robot.hook.msghandle.base.BaseHandleMsg;
 import com.robot.netty.ProtocalManager;
+import com.robot.nettywss.WssProtocalManager;
 import com.robot.util.MyLog;
 import com.robot.util.ProxyUtil;
 import com.robot.util.StrUtils;
@@ -144,10 +145,12 @@ public class HandleMsgVoice implements BaseHandleMsg {
         String objectName = getObjectName(new File(voicePath).getName());
         String fullImgUrl = MConfiger.getFullImgUrl(objectName);
         msgEntity.content = fullImgUrl;
-        ProtocalManager.getInstance().sendMsgEntity(msgEntity, "sendVoiceMsg");
+//        ProtocalManager.getInstance().sendMsgEntity(msgEntity, "sendVoiceMsg");
         //上传文件到oss
         OssController.getInstance().uploadFile(voicePath, objectName, msgEntity);
         MyLog.debug(TAG, "[sendVoice]" + "语音翻译 " + msgEntity.sttText + "语音时长 " + (msgEntity.fileMsgEntity != null ? msgEntity.fileMsgEntity.voiceTime : 0) + " oss 音频文件:" + voicePath + " url:" + fullImgUrl + " type:" + msgEntity.contentType, true);
+        WssProtocalManager.sendMsgEntity(msgEntity, "voice");
+
     }
 
     /**

@@ -2,6 +2,8 @@ package com.robot.netty.handle.imple
 
 import android.text.TextUtils
 import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.robot.common.Global
 import com.robot.controller.message.MessageController.SendMessageCallBack
 import com.robot.controller.message.WeWorkMessageUtil
@@ -14,10 +16,22 @@ import com.robot.netty.handle.imple.entity.MessageEntity
 import com.robot.nettywss.WssProtocalManager
 import com.robot.util.MyLog
 
+
 class HandleMediaMsg : BaseHandle() {
     override fun onHandle(data: String) {
         super.onHandle(data)
-        val res: MessageEntity = Gson().fromJson<MessageEntity>(data, MessageEntity::class.java)
+
+        MyLog.debug(
+            TAG, " [HandleMediaMsg] " + "发送消息..." + data
+        )
+
+        val root: JsonObject = JsonParser().parse(data).getAsJsonObject()
+        val resultJsonStr = root.get("result").getAsString()
+        val resultObject = JsonParser().parse(resultJsonStr).getAsJsonObject()
+        root.add("result", resultObject) // 替换掉原来的字符串字段
+
+
+        val res: MessageEntity = Gson().fromJson<MessageEntity>(root, MessageEntity::class.java)
         val msgType: String = res.msgType ?: ""
 
         MyLog.debug(
@@ -53,6 +67,53 @@ class HandleMediaMsg : BaseHandle() {
                             TAG,
                             "msgType" + msgType + " [onHandle]" + message + "发送img消息..." + data
                         )
+
+                        sendPrivateMessage(
+                            res.reqid, res.msgType, res.result?.remoteId!!, message
+                        )
+                    }
+                }
+            }
+
+            "video" -> {
+                if ((res.result?.remoteId ?: return) > 0) {
+                    if (res.result?.content?.isNotEmpty() == true) {
+                        res.result?.videoLocalPath =
+                            SendHelperSendMsgEntity.SendHelperSendVideoEntity(res.result?.content).localPath
+                        val message = WeWorkMessageUtil.buildVideoMessage(
+                            Global.loadPackageParam.classLoader, res.result?.videoLocalPath ?: ""
+                        )
+                        MyLog.debug(
+                            TAG,
+                            "msgType" + msgType + " [onHandle]" + message + "发送 video 消息..." + data
+                        )
+
+                        sendPrivateMessage(
+                            res.reqid, res.msgType, res.result?.remoteId!!, message
+                        )
+                    }
+                }
+            }
+
+            "voice" -> {
+                if ((res.result?.remoteId ?: return) > 0) {
+                    if (res.result?.content?.isNotEmpty() == true) {
+
+                         val voiceFilePath = ResourceController.saveIntNetFile(
+                             res.result?.content,
+                            ResourceController.MResource.VOICE
+                        )
+
+//                        res.result?.voiceLocalPath =
+//                            SendHelperSendMsgEntity.SendHelperSendVideoEntity(res.result?.content).localPath
+                        val message = WeWorkMessageUtil.buildVoiceMessage(
+                            Global.loadPackageParam.classLoader, voiceFilePath
+                        , 1)
+                        MyLog.debug(
+                            TAG,
+                            "msgType" + msgType + " [onHandle]" + message + "发送 voice 消息..." + data
+                        )
+
                         sendPrivateMessage(
                             res.reqid, res.msgType, res.result?.remoteId!!, message
                         )

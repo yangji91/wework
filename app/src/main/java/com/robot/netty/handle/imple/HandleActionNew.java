@@ -21,9 +21,12 @@ public class HandleActionNew extends BaseHandle {
         super.onHandle(data);
         ResBaseEntity res = new Gson().fromJson(data, ResBaseEntity.class);
         String taskType = res.getTaskType();
-        MyLog.debug(TAG, "taskType " + taskType + " [收到服务端新下发的任务:]: " + data, true);
+//        MyLog.debug(TAG, "taskType " + taskType + " [收到服务端新下发的任务:]: " + data, true);
 
         ActionEnum handleEnum = ActionEnum.getHandleActionByTaskType(taskType);
+
+        MyLog.debug(TAG, "taskType " + taskType + " [收到服务端新下发的任务:]: " + data + "enum: " + handleEnum, true);
+
         if (handleEnum != null) {
             MyLog.debug(TAG, "[onHandle]" + handleEnum.getDesc());
             BaseHandle baseHandle = handleEnum.getHandleAction();

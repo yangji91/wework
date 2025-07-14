@@ -7,7 +7,7 @@ data class MessageEntity(
     var reqid: String?, // 123
     var result: Result?
 ) {
-    data class Result(
+    public data class Result(
         var remoteId: Long, // remoteId
 
         //文本消息内容 or 图片消息url
@@ -17,6 +17,11 @@ data class MessageEntity(
 //        var imgUrl: String?,
         //自加字段
         var imgLocalPath: String?,
+
+        var videoLocalPath: String?,
+
+        var voiceLocalPath: String?,
+
 
         //卡片消息地址
         var linkUrl: String?,

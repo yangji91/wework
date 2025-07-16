@@ -135,6 +135,9 @@ public class Main extends BaseMainXposed {
     }
 
     private void getLoginUserInfoAndConnect() {
+
+        MyLog.debug(TAG, "[getLoginUserInfoAndConnect]" + Thread.currentThread().getName());
+
         Global.postRunnable2UI(() -> {
             MyLog.debug(TAG, "[getLoginUserInfoAndConnect]" + Thread.currentThread().getName());
             UserEntity loginUser = LoginController.getInstance().getLoginUser();
@@ -288,11 +291,11 @@ public class Main extends BaseMainXposed {
         if (isInit) {
             HookBaseMethod[] baseMethods = {
                     HookMethodEnum.MSG_REV.getMethod(),
-                    HookMethodEnum.LOG.getMethod(),
-                    HookMethodEnum.LOGOUT.getMethod(),
-                    HookMethodEnum.HOOK_CRASH_REPORT.getMethod(),
-                    HookMethodEnum.HOOK_MESSAGE_RECALL.getMethod(),
-                    HookMethodEnum.CONVERSATION_ADD.getMethod(),
+//                    HookMethodEnum.LOG.getMethod(),
+//                    HookMethodEnum.LOGOUT.getMethod(),
+//                    HookMethodEnum.HOOK_CRASH_REPORT.getMethod(),
+//                    HookMethodEnum.HOOK_MESSAGE_RECALL.getMethod(),
+//                    HookMethodEnum.CONVERSATION_ADD.getMethod(),
             };
             MyLog.debug(TAG, "[handleLoadPackage]" + " 启动 注册hook函数 注册函数列表 " + baseMethods.length);
 
@@ -301,7 +304,7 @@ public class Main extends BaseMainXposed {
                 MyLog.debug(TAG, "[handleLoadPackage]" + " 启动 注册hook函数 " + m.getClass(), true);
                 m.onHookInfo(null, lpparam, null);
             }
-//            MyLog.debug(TAG, "[handleLoadPackage]" + " 启动 注册hook函数 " + lpparam.processName, true);
+            MyLog.debug(TAG, "[handleLoadPackage]" + " 启动 注册hook函数 完成>>" + lpparam.processName, true);
             LoginController.getInstance().registerListener(new LoginController.ILoginListener() {
                 @Override
                 public void onLogout(String tips) {

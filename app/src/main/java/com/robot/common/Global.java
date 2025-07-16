@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.gzuliyujiang.oaid.DeviceIdentifier;
+import com.robot.com.file.SharePreWecomVersion;
 import com.robot.entity.DeviceModelEnum;
 import com.robot.entity.MsgEntity;
 import com.robot.entity.PhoneLocEnum;
@@ -350,7 +351,7 @@ public class Global {
 //            wecomVersion = getPackageWecomVersion();
 //        }
         //todo
-        return MConfiger.WEWORK_VERSION_19717;
+        return MConfiger.WEWORK_VERSION_31145;
     }
 
     public static String getPackageWecomVersion() {

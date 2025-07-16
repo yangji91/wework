@@ -98,7 +98,7 @@ public class MConfiger {
 
     public static final String WEWORK_VERSION_17857 = "3.1.16.17857";
     public static final String WEWORK_VERSION_19717 = "4.0.10.19717";
-    public static final String WEWORK_VERSION_31145 = "4.1.13.31145";
+    public static final String WEWORK_VERSION_31145 = "4.1.30.31145";
 
     public static final String[] ADAPTER_WEWORK_VERSIONS = new String[]{WEWORK_VERSION_17857, WEWORK_VERSION_19717, WEWORK_VERSION_31145};
 

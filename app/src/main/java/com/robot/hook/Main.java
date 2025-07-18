@@ -52,6 +52,7 @@ public class Main extends BaseMainXposed {
 
     private boolean isUpload = false;
 
+    private int _contactsNum = 0;
 
     @SuppressLint("StaticFieldLeak")
     public static Activity mainActivity;
@@ -185,6 +186,8 @@ public class Main extends BaseMainXposed {
                         delayTask();
                         isUpload = true;
                     }
+
+                    syncContactsIfAnyNew();
                 }
             });
             WssNettyEngine.getInstance().startConnect();
@@ -268,6 +271,22 @@ public class Main extends BaseMainXposed {
         });
     }
 
+    private void syncOuterContactIfAnyNew() {
+        ConvController.getInstance().getOuterContact(new ConvController.GetUserCallback() {
+            @Override
+            public void onResult(int code, List<UserEntity> list) {
+                MyLog.debug("mainActivity", " syncOuterContactIfAnyNew " + list.size());
+
+                if (_contactsNum != list.size()) {
+                    MyLog.debug("mainActivity", "Start SyncOuterContactIfAnyNew " + list.size());
+
+                    WssProtocalManager.sendContactInfos(list);
+                }
+                _contactsNum = list.size();
+            }
+        });
+    }
+
     private void synchrConversationList() {
         ConvController.getInstance().getAndSendConvInfo();
     }
@@ -287,15 +306,28 @@ public class Main extends BaseMainXposed {
         }, 1000 * 10);
     }
 
+    private void syncContactsIfAnyNew() {
+        //15秒后上传联系人和会话信息
+        MyLog.debug(TAG, "Sync contacts if there is any new.");
+        Global.postRunnable2UIDelay(new Runnable() {
+            @Override
+            public void run() {
+                MyLog.debug(TAG, "[Sync New contacts]" + " run...");
+                //同步外部联系人信息
+                syncOuterContactIfAnyNew();
+            }
+        }, 1000 * 10);
+    }
+
     private void hookWeWorkInfo(LoadPackageParam lpparam, boolean isInit) {
         if (isInit) {
             HookBaseMethod[] baseMethods = {
                     HookMethodEnum.MSG_REV.getMethod(),
-//                    HookMethodEnum.LOG.getMethod(),
-//                    HookMethodEnum.LOGOUT.getMethod(),
-//                    HookMethodEnum.HOOK_CRASH_REPORT.getMethod(),
-//                    HookMethodEnum.HOOK_MESSAGE_RECALL.getMethod(),
-//                    HookMethodEnum.CONVERSATION_ADD.getMethod(),
+                    HookMethodEnum.LOG.getMethod(),
+                    HookMethodEnum.LOGOUT.getMethod(),
+                    HookMethodEnum.HOOK_CRASH_REPORT.getMethod(),
+                    HookMethodEnum.HOOK_MESSAGE_RECALL.getMethod(),
+                    HookMethodEnum.CONVERSATION_ADD.getMethod(),
             };
             MyLog.debug(TAG, "[handleLoadPackage]" + " 启动 注册hook函数 注册函数列表 " + baseMethods.length);
 
@@ -304,7 +336,6 @@ public class Main extends BaseMainXposed {
                 MyLog.debug(TAG, "[handleLoadPackage]" + " 启动 注册hook函数 " + m.getClass(), true);
                 m.onHookInfo(null, lpparam, null);
             }
-            MyLog.debug(TAG, "[handleLoadPackage]" + " 启动 注册hook函数 完成>>" + lpparam.processName, true);
             LoginController.getInstance().registerListener(new LoginController.ILoginListener() {
                 @Override
                 public void onLogout(String tips) {

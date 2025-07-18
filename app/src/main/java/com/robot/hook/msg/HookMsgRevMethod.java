@@ -87,6 +87,7 @@ public class HookMsgRevMethod extends HookBaseMethod {
         return false;
     }
 
+    // Received message, resolve it
     public void handleMsg(MsgEntity entity, LoadPackageParam loadPackageParam) {
         if (entity.convType == 1) {
             return;

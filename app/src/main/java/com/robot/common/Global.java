@@ -160,6 +160,13 @@ public class Global {
         uiHandler.postDelayed(r, milli);
     }
 
+
+    public static void runTaskCycle(Runnable r) {
+
+        uiHandler.post(r);
+    }
+
+
     public static void removeRunnable(Runnable r) {
         if (uiHandler != null) {
             uiHandler.removeCallbacks(r);

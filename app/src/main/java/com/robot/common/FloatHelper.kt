@@ -170,8 +170,8 @@ object FloatHelper {
                     background = floatGradientDrawable
                 }
                 mTipView?.apply {
-                    text =
-                        MConfiger.mRobotTips + "\r\n" + "版本号:" + BuildConfig.VERSION_NAME + " " + BuildConfig.VERSION_CODE + "\r\n" + "企微版本号:" + Global.getPackageWecomVersion() + "\r\n"
+                    text = "租户 ID: " + "${Global.getTenantId()}" + "\r\n" + MConfiger.mRobotTips + "\r\n" +
+                                "版本号:" + BuildConfig.VERSION_NAME + " " + BuildConfig.VERSION_CODE + "\r\n" + "企微版本号:" + Global.getPackageWecomVersion() + "\r\n"
                 }
             }
         }.onFailure {

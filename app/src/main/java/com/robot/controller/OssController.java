@@ -145,7 +145,12 @@ public class OssController {
                 FileInputStream fis2 = new FileInputStream(new File(localPath));
                 PutObjectRequest request = new PutObjectRequest();
                 request.setBucketName(pTokenEntity.bucket_name);
-                request.setObjectKey(objectName);
+
+                String fileName = String.valueOf(Global.getTenantId()) + "/" + objectName;
+
+                MyLog.debug("OssController", "Object Name: " + objectName + " File Name: " + fileName);
+
+                request.setObjectKey(fileName);
                 request.setInput(fis2);
 
                 PutObjectResult result = obsClient.putObject(request);

@@ -86,6 +86,12 @@ public class Global {
         return (long) RobotHelpers.callMethod(objImple, KeyConst.M_IACCOUNT_GETLOGINUSERID);
     }
 
+    public static long getTenantId() {
+        return  1;
+    }
+
+
+
     private static void initLogThread() {
         mThreadLog = new HandlerThread("Log");
         mThreadLog.start();

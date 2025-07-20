@@ -10,7 +10,7 @@ public enum EnvirEnum {
             "****", 443,
             "****",
             "****",
-            "wss://api.youdai666.com/infra/ws/1/{imei}/{wxid}",
+            "wss://api.youdai666.com/infra/ws/{tenantId}/{imei}/{wxid}",
             "wss://api.toou.top/hk/ws/gw/{imei}", //"wss://api.toou.top:443/workbench/websocket/A001",
             "https://92b6f898fdc0b3534dea4081f1f61702-xi.obs.cn-east-3.myhuaweicloud.com/",
             "****"
@@ -20,7 +20,7 @@ public enum EnvirEnum {
             "****", 443,
             "****",
             "****",
-            "wss://api.youdai666.com/infra/ws/1/{imei}/{wxid}",
+            "wss://api.youdai666.com/infra/ws/{tenantId}/{imei}/{wxid}",
             "wss://api.toou.top/hk/ws/gw/{imei}", //"wss://api.toou.top:443/workbench/websocket/A001",
             "https://92b6f898fdc0b3534dea4081f1f61702-xi.obs.cn-east-3.myhuaweicloud.com/",
             "****"
@@ -74,11 +74,11 @@ public enum EnvirEnum {
     }
 
     public String getSocketIp(String imei, String wxid) {
-        return this.wecomSocketIp.replace("{imei}", imei).replace("{wxid}", wxid);
+        return this.wecomSocketIp.replace("{imei}", imei).replace("{wxid}", wxid).replace("{tenantId}", String.valueOf(Global.getTenantId()));
     }
 
     public String getImgHost() {
-        return this.imgHost;
+        return this.imgHost + String.valueOf(Global.getTenantId()) + "/";
     }
 
     public String getHttpAgentUrl() {

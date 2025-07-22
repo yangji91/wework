@@ -78,8 +78,8 @@ public class WssNettyClient {
                             pipeline.addLast(new HttpObjectAggregator(1024 * 64)); // 聚合器，使用websocket会用到
                             pipeline.addLast(new ChunkedWriteHandler()); // 添加一个用于支持大数据流的支持
                             pipeline.addLast(new WebSocketClientProtocolHandler(handshaker, true, false));
-//                            pipeline.addLast(new IdleStateHandler(0, 5, 0, TimeUnit.SECONDS));// 添加心跳支持
-
+                            pipeline.addLast(new IdleStateHandler(0, 50, 0, TimeUnit.SECONDS));// 添加心跳支持
+                            pipeline.addLast(new HeartbeatHandler());
                             // 添加发送数据编码器
                             // MyLog.debug(TAG, "[startConnect]" + "添加发送数据编码器...");
                             // pipeline.addLast("encoder", new ClientEncoder());
@@ -99,13 +99,17 @@ public class WssNettyClient {
             MyLog.debug(TAG, "start connect complete...");
             // channel.closeFuture().sync();
         } catch (InterruptedException e) {
-            MyLog.error(TAG, e);
+//            MyLog.error(TAG, e);
+            MyLog.debug(TAG, "startConnect: Error InterruptedException" + e);
+
             if (mConnectListener != null) {
                 mConnectListener.connectError(e.getMessage());
             }
         } catch (Throwable ee) {
             // ee.printStackTrace();
-            MyLog.error(TAG, ee);
+//            MyLog.error(TAG, ee);
+            MyLog.debug(TAG, "startConnect: Error Throwable" + ee);
+
             if (mConnectListener != null) {
                 mConnectListener.connectError(ee.getMessage());
             }
@@ -146,6 +150,7 @@ public class WssNettyClient {
                     }
                 }
             });
+
             channel.disconnect();
             channel.close();
             channel = null;

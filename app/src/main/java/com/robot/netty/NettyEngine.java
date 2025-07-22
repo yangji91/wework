@@ -249,7 +249,7 @@ public class NettyEngine {
     }
 
     private void tryConnectNow() {
-        MyLog.debug(TAG, "[tryConnect]" + "...");
+        MyLog.debug(TAG, "[tryConnectNow]" + "...");
         if (LoginController.getInstance().getLoginUserId() > 0) {
             startClient(true);
         }

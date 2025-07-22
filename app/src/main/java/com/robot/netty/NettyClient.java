@@ -113,13 +113,13 @@ public class NettyClient {
             succ = true;
             MyLog.debug(TAG, "start connect complete...");
         } catch (InterruptedException e) {
-            MyLog.error(TAG, e);
+            MyLog.debug(TAG, "startConnect: Error" + e);
             if (mConnectListener != null) {
                 mConnectListener.connectError(e.getMessage());
             }
         } catch (Throwable ee) {
             // ee.printStackTrace();
-            MyLog.error(TAG, ee);
+            MyLog.debug(TAG, "startConnect: Error Throwable" + ee);
             if (mConnectListener != null) {
                 mConnectListener.connectError(ee.getMessage());
             }

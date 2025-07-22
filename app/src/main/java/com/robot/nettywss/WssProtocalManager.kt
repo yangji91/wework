@@ -26,6 +26,7 @@ import com.robot.netty.proto.req.ReqUserEntity
 import com.robot.nettywss.proto.WssSendHeartBeatImpl
 import com.robot.util.MyLog
 import com.robot.util.StrUtils
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -57,6 +58,8 @@ object WssProtocalManager {
         MyLog.debug("sendHeartBeat ", req)
         val heartBeatImpl = WssSendHeartBeatImpl(TextWebSocketFrame(req))
         WssNettyEngine.getInstance().sendMsg(heartBeatImpl)
+        WssNettyEngine.getInstance().heartBeat();
+
     }
 
     /**

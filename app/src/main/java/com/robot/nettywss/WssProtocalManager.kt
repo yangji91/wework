@@ -58,7 +58,7 @@ object WssProtocalManager {
         MyLog.debug("sendHeartBeat ", req)
         val heartBeatImpl = WssSendHeartBeatImpl(TextWebSocketFrame(req))
         WssNettyEngine.getInstance().sendMsg(heartBeatImpl)
-//        WssNettyEngine.getInstance().heartBeat();
+        WssNettyEngine.getInstance().heartBeat();
 
     }
 

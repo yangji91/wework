@@ -50,6 +50,7 @@ public class MConfiger {
 
     public static final long HEART_BEAT_STOP_INTERVAL_4Minutes = 1000 * 60 * 4;
     public static final long HEART_BEAT_STOP_INTERVAL_1Minutes = 1000 * 60 * 1;
+    public static final long HEART_BEAT_STOP_INTERVAL_3Minutes = 1000 * 60 * 3;
 
     //AtMsg Default
     public static final String AT_CONTENT_MSG_DEF = ".";

@@ -78,8 +78,8 @@ public class WssNettyClient {
                             pipeline.addLast(new HttpObjectAggregator(1024 * 64)); // 聚合器，使用websocket会用到
                             pipeline.addLast(new ChunkedWriteHandler()); // 添加一个用于支持大数据流的支持
                             pipeline.addLast(new WebSocketClientProtocolHandler(handshaker, true, false));
-                            pipeline.addLast(new IdleStateHandler(0, 50, 0, TimeUnit.SECONDS));// 添加心跳支持
-//                            pipeline.addLast(new HeartbeatHandler());
+                            pipeline.addLast(new IdleStateHandler(0, 120, 0, TimeUnit.SECONDS));// 添加心跳支持
+                            pipeline.addLast(new HeartbeatHandler());
                             // 添加发送数据编码器
                             // MyLog.debug(TAG, "[startConnect]" + "添加发送数据编码器...");
                             // pipeline.addLast("encoder", new ClientEncoder());

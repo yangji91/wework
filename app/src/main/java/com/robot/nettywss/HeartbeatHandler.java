@@ -18,8 +18,9 @@ public class HeartbeatHandler extends ChannelInboundHandlerAdapter {
             IdleStateEvent e = (IdleStateEvent) evt;
             if (e.state() == IdleState.WRITER_IDLE) {
                 MyLog.debug("HeartbeatHandler", "Sending heartbeat ping");
-//                ctx.writeAndFlush(new PingWebSocketFrame()); // 发送 ping
-                WssProtocalManager.sendHeartBeat();
+                ctx.writeAndFlush(new PingWebSocketFrame()); // 发送 ping
+//                WssProtocalManager.sendHeartBeat();
+
             }
         } else {
             super.userEventTriggered(ctx, evt);
@@ -30,6 +31,7 @@ public class HeartbeatHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof PongWebSocketFrame) {
             MyLog.debug("HeartbeatHandler","Received pong");
+            WssNettyEngine.getInstance().heartBeat();
             return;
         }
         super.channelRead(ctx, msg);

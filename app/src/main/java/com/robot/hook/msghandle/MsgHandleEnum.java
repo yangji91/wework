@@ -30,11 +30,16 @@ public enum MsgHandleEnum {
     TEXTMSG_SELF(0, "文本消息自己", new HandleTextMsg()),
     MINI_APP(78, "小程序", new HandleMiniAppMsg()),
     TextMSG(2, "文本消息", new HandleTextMsg()),
+    REDPACKET(26, "红包消息处理", new HandleRedPacketMsg()),
+
+    TRANSFER(588, "转账消息处理", new HandleTransferMsg()),
+
     //    CallMSG(40, "语音视频通话", new HandleCallMsg()),
 //    CUSTOM_IMAGE(29, "企微自定义表情", new HandleDIYMemeImageMsg()),
 //    GROUP_SEND_NOTIFY_MSG(205, "群发群消息给群确认提醒", new HandleBlankMsg()),
 //    PRIVATE_SEND_NOTIFY_MSG(112, "群发消息给客户确认提醒", new HandleBlankMsg()),
     CUSTOM_WX_IMAGE(104, "个微自定义表情", new HandleDIYMemeImageMsg());
+
 
     private int type;
     private String tips;

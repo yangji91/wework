@@ -101,9 +101,9 @@ public class WssNettyEngine {
         @Override
         public void run() {
             while (isRunning) {
-                if (mHeartBeatTime != 0 && (Math.abs(mHeartBeatTime - System.currentTimeMillis()) >= MConfiger.HEART_BEAT_STOP_INTERVAL_2Minutes)) {
+                if (mHeartBeatTime != 0 && (Math.abs(mHeartBeatTime - System.currentTimeMillis()) >= MConfiger.HEART_BEAT_STOP_INTERVAL_1Minutes)) {
                     MyLog.debug(TAG, "[sendMsg]" + "超过 2分钟没有服务器数据，重新连接...", true);
-                    StatsHelper.event("msgReport", "connect", "超过 2分钟没有服务器数据，重新连接", "heartBeatTime" + mHeartBeatTime);
+                    StatsHelper.event("msgReport", "connect", "超过 1钟没有服务器数据，重新连接", "heartBeatTime" + mHeartBeatTime);
                     isClientCloseSocket = true;
                     mHeartBeatTime = System.currentTimeMillis();
                     stopNettyConnectAndTryConnect();

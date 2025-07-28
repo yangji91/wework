@@ -58,7 +58,7 @@ object WssProtocalManager {
         MyLog.debug("sendHeartBeat ", req)
         val heartBeatImpl = WssSendHeartBeatImpl(TextWebSocketFrame(req))
         WssNettyEngine.getInstance().sendMsg(heartBeatImpl)
-        WssNettyEngine.getInstance().heartBeat();
+//        WssNettyEngine.getInstance().heartBeat();
 
     }
 
@@ -135,7 +135,15 @@ object WssProtocalManager {
                 StrUtils.objectToJson(msgEntity.originMsg), OriginMsgEntity::class.java
             )
             reqMsgEntity.content = originMsg.info?.content ?: ""
-        } else {
+        } else if (msgType == "redPacket") {
+            reqMsgEntity.content = "红包消息"
+        }
+        else if (msgType == "transfer") {
+            reqMsgEntity.content = "转账消息"
+        } else if (msgType == "voice") {
+            reqMsgEntity.ttsText = msgEntity.sttText;
+        }
+        else {
             reqMsgEntity.content = msgEntity.content ?: ""
         }
 //        reqMsgEntity.nickname = msgEntity.sendername ?: ""

@@ -116,7 +116,14 @@ public class MsgParseUtil {
 //            } else if (contentType == MsgHandleEnum.MERGE_FORWARD.getType()) {
 //                MyLog.debug(TAG, "[parseMsgEntity]" + "合并转发...");
 //                content = "[合并转发消息，暂不支持查看！]";
-            } else {
+            } else if (contentType == REDPACKET.getType()) {
+                MyLog.debug(TAG, "[parseMsgEntity]" + "红包消息...");
+                content = "[红包消息]";
+            } else if (contentType == TRANSFER.getType()) {
+                MyLog.debug(TAG, "[parseMsgEntity]" + "转账消息...");
+                content = "[转账消息]";
+            }
+            else {
                 if (contentType == 0 || contentType == 2) {
                     List<SimpleMsgEntity> sList = StrUtils.ByteToString(bs, contentType);
                     content = StrUtils.getContentTextInfo(sList);

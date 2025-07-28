@@ -21,6 +21,9 @@ class ReqMsgEntity : Serializable {
     var content: String = ""
 
     @JvmField
+    var ttsText: String = ""
+
+    @JvmField
     var imgUrl: String = ""
 
     @JvmField
